@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FBE8CB">
+
+    <Button
+        android:id="@+id/gotoregister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="#FF7700"
+        android:fontFamily="sans-serif-medium"
+        android:onClick="launchRegister"
+        android:text="Registar"
+        app:layout_constraintBottom_toBottomOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gotologin"
+        app:layout_constraintVertical_bias="0.204" />
+
+    <Button
+        android:id="@+id/gotologin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="204dp"
+        android:backgroundTint="#FF7700"
+        android:fontFamily="sans-serif-medium"
+        android:onClick="launchLogin"
+        android:text="Login"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="433dp"
+        android:layout_height="297dp"
+        android:background="#90FF7700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="385dp"
+        android:layout_height="418dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.106"
+        app:srcCompat="@drawable/captura_de_ecr__2022_01_21___s_02_16_41_removebg_preview" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
