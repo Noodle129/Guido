@@ -8,10 +8,10 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private Set<String> categories;
+    private Set<Category> categories;
 
 
-    public User(int id, String name, String email, String password, Set<String> categories) {
+    public User(int id, String name, String email, String password, Set<Category> categories) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -51,11 +51,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<String> getCategories() {
+    public Set<Category> getCategories() {
         return new HashSet<>(categories);
     }
 
-    public void setCategories(Set<String> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = new HashSet<>(categories);
         }
 }
