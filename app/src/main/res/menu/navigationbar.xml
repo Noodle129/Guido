@@ -1,40 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ShowIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item android:title="User">
-
-            <menu>
-                <item
-                    android:id="@+id/editinfo"
-                    android:icon="@drawable/ic_baseline_info_24"
-                    android:title="Editar perfil"
-                    />
-            </menu>
-
-
-
-        </item>
-
-    </group>
-
-
-
-
-    <group android:checkableBehavior="single">
-        <item android:id="@+id/info"
-            android:icon="@drawable/ic_baseline_info_24"
-            android:title="About us"/>
-
-        <item android:id="@+id/info1"
-            android:icon="@drawable/ic_baseline_info_24"
-            android:title="a"/>
-
-        <item android:id="@+id/info2"
-            android:icon="@drawable/ic_baseline_info_24"
-            android:title="b"/>
-
+    <group >
+        <item
+            android:id="@+id/trips"
+            android:title="Trips" />
+        <item
+            android:id="@+id/Aboutyou"
+            android:title="About You" />
+        <item
+            android:id="@+id/termsofservice"
+            android:title="Terms of Service" />
     </group>
 
 
