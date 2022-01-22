@@ -31,7 +31,7 @@
         android:backgroundTint="#FF5722"
         android:ems="10"
         android:fontFamily="sans-serif-condensed-light"
-        android:hint="Nome / Email"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2"
