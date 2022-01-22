@@ -38,7 +38,7 @@ public class JDBCQueries {
 
     public static final String GET_TRIP
             = "SELECT FROM trip WHERE id=?";
-    
+
     public static void register_user(String name, String password, String email) throws CannotAcessDataBase, EmailNotAvalable {
         Connection con = null;
         PreparedStatement ps = null;

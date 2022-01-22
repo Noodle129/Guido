@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.guido.Exceptions.CannotAcessDataBase;
+import com.guido.Exceptions.EmailNotAvalable;
+import com.guido.JDBC.JDBCQueries;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -11,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void addition_isCorrect() throws CannotAcessDataBase, EmailNotAvalable {
+        JDBCQueries.register_user("Azula","019","azula@besta.com");
     }
 }
