@@ -46,6 +46,14 @@ public class Trip {
         this.locationSet = new HashSet<>(locationSet);
     }
 
+    public int getAdmin_id() {
+        return admin_id;
+    }
+
+    public void setAdmin_id(int admin_id) {
+        this.admin_id = admin_id;
+    }
+
     @Override
     public String toString() {
         return "Trip{" +

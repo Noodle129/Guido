@@ -37,4 +37,10 @@ public class JDBCHelper {
         if (rs != null)
             rs.close();
     }
+
+    public static void printSQLExcep(SQLException e) {
+        System.err.println("Error: " + e.getErrorCode());
+        System.err.println("State: " + e.getSQLState());
+        System.err.println("Message: " + e.getMessage());
+    }
 }

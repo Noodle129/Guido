@@ -54,6 +54,9 @@ public class JDBCQueries {
     public static final String GET_LOCATION
             = "SELECT FROM location WHERE id=?";
 
+    public static final String GET_LOCATIONS
+            = "SELECT * FROM location";
+
     public static final String GET_TRIP
             = "SELECT FROM trip WHERE id=?";
 
@@ -83,16 +86,12 @@ public class JDBCQueries {
             u.setPassword(rs.getString(Tables.USER_PASSWORD_COL));
 
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         } finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
         }
         return u;
@@ -113,18 +112,14 @@ public class JDBCQueries {
         catch (SQLIntegrityConstraintViolationException e) {
             throw new EmailNotAvalable(email);
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         }
 
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
 
         }
@@ -144,18 +139,14 @@ public class JDBCQueries {
             con.commit();
         }
         catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         }
 
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
 
         }
@@ -175,18 +166,14 @@ public class JDBCQueries {
             con.commit();
         }
         catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         }
 
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
 
         }
@@ -206,18 +193,14 @@ public class JDBCQueries {
             con.commit();
         }
         catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         }
 
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
 
         }
@@ -238,17 +221,13 @@ public class JDBCQueries {
             }
 
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         }
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
         }
         return categoryMap;
@@ -268,18 +247,14 @@ public class JDBCQueries {
             con.commit();
         }
         catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         }
 
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
         }
     }
@@ -331,19 +306,44 @@ public class JDBCQueries {
             l.setY(rs.getFloat(Tables.LOC_Y_COL));
             l.setAdmin_id(rs.getInt(Tables.LOC_ADMIN_ID_COL));
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         } finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
         }
         return l;
+    }
+
+    public Set<Location> getLocations(){
+        PreparedStatement ps = null;
+        Set<Location> ans = new HashSet<>();
+        try {
+            ps = con.prepareStatement(GET_LOCATIONS);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Location l = new Location();
+                l.setId(rs.getInt(Tables.LOC_ID_COL));
+                l.setName(rs.getString(Tables.LOC_NAME_COL));
+                l.setAddress(rs.getString(Tables.LOC_ADDRESS_COL));
+                l.setX(rs.getFloat(Tables.LOC_X_COL));
+                l.setY(rs.getFloat(Tables.LOC_Y_COL));
+                l.setAdmin_id(rs.getInt(Tables.LOC_ADMIN_ID_COL));
+                ans.add(l);
+            }
+        } catch (SQLException e) {
+            JDBCHelper.printSQLExcep(e);
+        } finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                JDBCHelper.printSQLExcep(e);
+            }
+        }
+        return ans;
     }
 
     public Set<Trip> getTrips(){
@@ -357,19 +357,16 @@ public class JDBCQueries {
                 Trip t = new Trip();
                 t.setName(rs.getString(Tables.TRIP_NAME_COL));
                 t.setId(rs.getInt(Tables.TRIP_ID_COL));
+                t.setAdmin_id(rs.getInt(Tables.TRIP_ADMIN_ID_COL));
                 ans.add(t);
             }
         } catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         } finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
         }
         return ans;
