@@ -75,4 +75,9 @@ public class JDBCQueriesTest extends TestCase {
         Set<Trip> s = jdbc.get_trips();
         s.forEach(t -> System.out.println(t.toString()));
     }
+
+    public void testGet_locations_from_trip() throws LocationDoesNotExit {
+        Set<Location> s = jdbc.get_locations_from_trip(1);
+        s.forEach(l -> System.out.println(l.toString()));
+    }
 }

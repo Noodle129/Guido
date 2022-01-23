@@ -64,7 +64,6 @@ public class JDBCQueries {
     public static final String GET_TRIPS
             = "SELECT * FROM trip";
 
-
     public static final String GET_LOCATIONS_FROM_TRIP
             = "SELECT * FROM trips_location_relationship WHERE Trip_ID=?";
 
@@ -373,6 +372,30 @@ public class JDBCQueries {
                 t.setId(rs.getInt(Tables.TRIP_ID_COL));
                 t.setAdmin_id(rs.getInt(Tables.TRIP_ADMIN_ID_COL));
                 ans.add(t);
+            }
+        } catch (SQLException e) {
+            JDBCHelper.printSQLExcep(e);
+        } finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                JDBCHelper.printSQLExcep(e);
+            }
+        }
+        return ans;
+    }
+
+    public Set<Location> get_locations_from_trip(int trip_id) throws LocationDoesNotExit {
+        Set<Location> ans = new HashSet<>();
+        PreparedStatement ps = null;
+
+        try {
+            ps = con.prepareStatement(GET_LOCATIONS_FROM_TRIP);
+            ps.setInt(1, trip_id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ans.add(get_location(rs.getInt(Tables.TLR_LOC_ID_COL)));
             }
         } catch (SQLException e) {
             JDBCHelper.printSQLExcep(e);
