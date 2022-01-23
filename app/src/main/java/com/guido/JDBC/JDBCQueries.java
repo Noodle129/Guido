@@ -4,6 +4,7 @@ import com.guido.Exceptions.CannotAcessDataBase;
 import com.guido.Exceptions.EmailNotAvalable;
 import com.guido.Exceptions.InvalidCredentials;
 import com.guido.Exceptions.LocationDoesNotExit;
+import com.guido.Exceptions.TripDoesNotExist;
 import com.guido.Model.Category;
 import com.guido.Model.Location;
 import com.guido.Model.Trip;
@@ -306,7 +307,7 @@ public class JDBCQueries {
         return l;
     }
 
-    public Set<Location> getLocations(){
+    public Set<Location> get_locations(){
         PreparedStatement ps = null;
         Set<Location> ans = new HashSet<>();
         try {
@@ -335,7 +336,31 @@ public class JDBCQueries {
         return ans;
     }
 
-    public Set<Trip> getTrips(){
+    public Trip get_trip(int id) throws TripDoesNotExist {
+        PreparedStatement ps = null;
+        Trip t = new Trip();
+        try {
+            ps = con.prepareStatement(GET_TRIP);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if(!rs.next()) throw new TripDoesNotExist(id);
+            t.setId(rs.getInt(Tables.TRIP_ID_COL));
+            t.setName(rs.getString(Tables.TRIP_NAME_COL));
+            t.setAdmin_id(rs.getInt(Tables.TRIP_ADMIN_ID_COL));
+        } catch (SQLException e) {
+            JDBCHelper.printSQLExcep(e);
+        } finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                JDBCHelper.printSQLExcep(e);
+            }
+        }
+        return t;
+    }
+
+    public Set<Trip> get_trips(){
         PreparedStatement ps = null;
         Set<Trip> ans = new HashSet<>();
         try {
@@ -360,5 +385,4 @@ public class JDBCQueries {
         }
         return ans;
     }
-
 }

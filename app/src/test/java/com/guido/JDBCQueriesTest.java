@@ -4,6 +4,7 @@ import com.guido.Exceptions.CannotAcessDataBase;
 import com.guido.Exceptions.EmailNotAvalable;
 import com.guido.Exceptions.InvalidCredentials;
 import com.guido.Exceptions.LocationDoesNotExit;
+import com.guido.Exceptions.TripDoesNotExist;
 import com.guido.JDBC.JDBCQueries;
 import com.guido.Model.Category;
 import com.guido.Model.Location;
@@ -58,17 +59,20 @@ public class JDBCQueriesTest extends TestCase {
     }
 
     public void testGet_location() throws LocationDoesNotExit {
-        Location l = jdbc.get_location(1);
-        System.out.println(l.toString());
+        System.out.println(jdbc.get_location(1).toString());
     }
 
-    public void testGetLocations() {
-        Set<Location> s = jdbc.getLocations();
+    public void testGet_locations() {
+        Set<Location> s = jdbc.get_locations();
         s.forEach(l -> System.out.println(l.toString()));
     }
 
-    public void testGetTrips() {
-        Set<Trip> s = jdbc.getTrips();
+    public void testGet_trip() throws TripDoesNotExist {
+        System.out.println(jdbc.get_trip(1).toString());
+    }
+
+    public void testGet_trips() {
+        Set<Trip> s = jdbc.get_trips();
         s.forEach(t -> System.out.println(t.toString()));
     }
 }
