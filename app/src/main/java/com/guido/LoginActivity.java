@@ -15,6 +15,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goToMainMenu(View v){
-        startActivity(new Intent(this, MapsActivity.class));
+        startActivity(new Intent(this, NavigationDrawer.class));
     }
+
+    
 }

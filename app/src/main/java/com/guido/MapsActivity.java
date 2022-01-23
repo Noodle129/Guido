@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.guido.databinding.ActivityMapsBinding;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -40,22 +40,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+    }
 
-        //Mooks
-        drawerLayout = findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.nav_menu);
-        toolbar = findViewById(R.id.toolbar);
-
-        //Tool bar
-        //setSupportActionBar(toolbar);
-
-        //Navigation drawer menu
-        ActionBarDrawerToggle act = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
-
-        drawerLayout.addDrawerListener(act);
-        act.syncState();
-
-        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
 
     }
 
@@ -68,29 +56,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
-
-    @Override
-    public void onBackPressed(){
-        if (drawerLayout.isDrawerOpen(GravityCompat.START))
-            drawerLayout.closeDrawer(GravityCompat.START);
-        else
-            super.onBackPressed();
-    }
-
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //switch (item.getItemId()){
-        //    case R.id.map:
-        //}
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
 }
