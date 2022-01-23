@@ -19,6 +19,21 @@ public class User {
         this.categories =  new HashSet<>(categories);
     }
 
+    public User(int id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        categories = null;
+    }
+
+    public User() {
+        this.name = null;
+        this.email = null;
+        this.password = null;
+        this.categories = null;
+    }
+
     public int getId() {
         return id;
     }

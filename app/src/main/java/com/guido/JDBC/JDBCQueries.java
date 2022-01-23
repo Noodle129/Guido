@@ -1,18 +1,31 @@
 package com.guido.JDBC;
 
+import com.google.android.material.tabs.TabLayout;
 import com.guido.Exceptions.CannotAcessDataBase;
 import com.guido.Exceptions.EmailNotAvalable;
+import com.guido.Exceptions.InvalidCredentials;
+import com.guido.Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 public class JDBCQueries {
+    private Connection con;
+
+    public JDBCQueries() throws SQLException {
+        this.con = JDBCHelper.getConnection();
+    }
+    public void close() throws SQLException {
+        JDBCHelper.closeConnection(con);
+    }
+
     public static final String INSERT_USER
             = "INSERT INTO user(name,password,email) VALUES(?,?,?)";
 
-    public static final String CHECK_LOGIN_AND_GET_USER
+    public static final String LOGIN_USER
             = "SELECT * FROM user WHERE email=? AND password=?";
 
     public static final String UPDATE_NAME
@@ -39,6 +52,36 @@ public class JDBCQueries {
     public static final String GET_TRIP
             = "SELECT FROM trip WHERE id=?";
 
+    public User login_user(String lg_pass, String lg_mail) throws InvalidCredentials {
+        PreparedStatement ps = null;
+        User u = new User();
+        try {
+            ps = con.prepareStatement(LOGIN_USER);
+            ps.setString(1, lg_mail);
+            ps.setString(2, lg_pass);
+            ResultSet rs = ps.executeQuery();
+
+           if(!rs.next()) throw new InvalidCredentials();
+            u.setName(rs.getString(TableConsts.USER_NAME_COL));
+            u.setEmail(rs.getString(TableConsts.USER_EMAIL_COL));
+            u.setId(rs.getInt(TableConsts.USER_ID_COL));
+            u.setPassword(rs.getString(TableConsts.USER_PASSWORD_COL));
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getErrorCode());
+            System.err.println("State: " + e.getSQLState());
+            System.err.println("Message: " + e.getMessage());
+        } finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                System.err.println("Error: " + e.getErrorCode());
+                System.err.println("State: " + e.getSQLState());
+                System.err.println("Message: " + e.getMessage());
+            }
+        }
+        return u;
+    }
     public static void register_user(String name, String password, String email) throws CannotAcessDataBase, EmailNotAvalable {
         Connection con = null;
         PreparedStatement ps = null;
