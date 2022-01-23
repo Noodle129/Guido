@@ -1,6 +1,6 @@
 package com.guido.JDBC;
 
-public class TableConsts {
+public class Tables {
     public static String USER_NAME_COL      = "Name";
     public static int USER_NAME_SIZE        = 32;
     public static String USER_ID_COL        = "ID";

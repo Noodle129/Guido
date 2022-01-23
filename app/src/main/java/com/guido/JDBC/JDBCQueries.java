@@ -1,12 +1,12 @@
 package com.guido.JDBC;
 
-import com.google.android.material.tabs.TabLayout;
 import com.guido.Exceptions.CannotAcessDataBase;
 import com.guido.Exceptions.EmailNotAvalable;
 import com.guido.Exceptions.InvalidCredentials;
 import com.guido.Exceptions.LocationDoesNotExit;
 import com.guido.Model.Category;
 import com.guido.Model.Location;
+import com.guido.Model.Trip;
 import com.guido.Model.User;
 
 import java.sql.Connection;
@@ -57,6 +57,10 @@ public class JDBCQueries {
     public static final String GET_TRIP
             = "SELECT FROM trip WHERE id=?";
 
+    public static final String GET_TRIPS
+            = "SELECT * FROM trip";
+
+
     public static final String GET_LOCATIONS_FROM_TRIP
             = "";
 
@@ -73,10 +77,10 @@ public class JDBCQueries {
             ResultSet rs = ps.executeQuery();
 
            if(!rs.next()) throw new InvalidCredentials();
-            u.setName(rs.getString(TableConsts.USER_NAME_COL));
-            u.setEmail(rs.getString(TableConsts.USER_EMAIL_COL));
-            u.setId(rs.getInt(TableConsts.USER_ID_COL));
-            u.setPassword(rs.getString(TableConsts.USER_PASSWORD_COL));
+            u.setName(rs.getString(Tables.USER_NAME_COL));
+            u.setEmail(rs.getString(Tables.USER_EMAIL_COL));
+            u.setId(rs.getInt(Tables.USER_ID_COL));
+            u.setPassword(rs.getString(Tables.USER_PASSWORD_COL));
 
         } catch (SQLException e) {
             System.err.println("Error: " + e.getErrorCode());
@@ -229,8 +233,8 @@ public class JDBCQueries {
             ps = con.prepareStatement(GET_CATEGORIES);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                categoryMap.add(new Category(rs.getInt(TableConsts.CAT_ID_COL),
-                                             rs.getString(TableConsts.CAT_NAME_COL)));
+                categoryMap.add(new Category(rs.getInt(Tables.CAT_ID_COL),
+                                             rs.getString(Tables.CAT_NAME_COL)));
             }
 
         } catch (SQLException e) {
@@ -320,12 +324,12 @@ public class JDBCQueries {
             ResultSet rs = ps.executeQuery();
 
             if(!rs.next()) throw new LocationDoesNotExit(id);
-            l.setId(rs.getInt(TableConsts.LOC_ID_COL));
-            l.setName(rs.getString(TableConsts.LOC_NAME_COL));
-            l.setAddress(rs.getString(TableConsts.LOC_ADDRESS_COL));
-            l.setX(rs.getFloat(TableConsts.LOC_X_COL));
-            l.setY(rs.getFloat(TableConsts.LOC_Y_COL));
-            l.setAdminID(rs.getInt(TableConsts.LOC_ADMIN_ID_COL));
+            l.setId(rs.getInt(Tables.LOC_ID_COL));
+            l.setName(rs.getString(Tables.LOC_NAME_COL));
+            l.setAddress(rs.getString(Tables.LOC_ADDRESS_COL));
+            l.setX(rs.getFloat(Tables.LOC_X_COL));
+            l.setY(rs.getFloat(Tables.LOC_Y_COL));
+            l.setAdmin_id(rs.getInt(Tables.LOC_ADMIN_ID_COL));
         } catch (SQLException e) {
             System.err.println("Error: " + e.getErrorCode());
             System.err.println("State: " + e.getSQLState());
@@ -340,6 +344,35 @@ public class JDBCQueries {
             }
         }
         return l;
+    }
+
+    public Set<Trip> getTrips(){
+        PreparedStatement ps = null;
+        Set<Trip> ans = new HashSet<>();
+        try {
+            ps = con.prepareStatement(GET_TRIPS);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Trip t = new Trip();
+                t.setName(rs.getString(Tables.TRIP_NAME_COL));
+                t.setId(rs.getInt(Tables.TRIP_ID_COL));
+                ans.add(t);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getErrorCode());
+            System.err.println("State: " + e.getSQLState());
+            System.err.println("Message: " + e.getMessage());
+        } finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                System.err.println("Error: " + e.getErrorCode());
+                System.err.println("State: " + e.getSQLState());
+                System.err.println("Message: " + e.getMessage());
+            }
+        }
+        return ans;
     }
 
 }

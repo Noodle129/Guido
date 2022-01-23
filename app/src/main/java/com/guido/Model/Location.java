@@ -10,7 +10,7 @@ public class Location  {
     private String address;
     private double x;
     private double y;
-    private int adminID;
+    private int admin_id;
     private Set<Category> categorySet;
 
     public Location(){
@@ -23,7 +23,7 @@ public class Location  {
         this.address = address;
         this.x = x;
         this.y = y;
-        this.adminID = adminID;
+        this.admin_id = adminID;
         this.categorySet = new HashSet<>();
     }
 
@@ -43,12 +43,12 @@ public class Location  {
         this.name = name;
     }
 
-    public int getAdminID() {
-        return adminID;
+    public int getAdmin_id() {
+        return admin_id;
     }
 
-    public void setAdminID(int adminID) {
-        this.adminID = adminID;
+    public void setAdmin_id(int admin_id) {
+        this.admin_id = admin_id;
     }
 
     public Set<Category> getCategorySet() {
@@ -81,5 +81,18 @@ public class Location  {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", admin_id=" + admin_id +
+                ", categorySet=" + categorySet +
+                '}';
     }
 }
