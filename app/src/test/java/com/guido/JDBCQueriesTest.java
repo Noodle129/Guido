@@ -1,6 +1,7 @@
 package com.guido;
 
 import com.guido.Exceptions.CannotAcessDataBase;
+import com.guido.Exceptions.CategoryDoesNotExist;
 import com.guido.Exceptions.EmailNotAvalable;
 import com.guido.Exceptions.InvalidCredentials;
 import com.guido.Exceptions.LocationDoesNotExit;
@@ -79,5 +80,10 @@ public class JDBCQueriesTest extends TestCase {
     public void testGet_locations_from_trip() throws LocationDoesNotExit {
         Set<Location> s = jdbc.get_locations_from_trip(1);
         s.forEach(l -> System.out.println(l.toString()));
+    }
+
+    public void testGet_categories_from_user() throws CategoryDoesNotExist {
+        Set<Category> s = jdbc.get_categories_from_user(1);
+        s.forEach(c -> System.out.println(c.toString()));
     }
 }

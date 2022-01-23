@@ -1,6 +1,7 @@
 package com.guido.JDBC;
 
 import com.guido.Exceptions.CannotAcessDataBase;
+import com.guido.Exceptions.CategoryDoesNotExist;
 import com.guido.Exceptions.EmailNotAvalable;
 import com.guido.Exceptions.InvalidCredentials;
 import com.guido.Exceptions.LocationDoesNotExit;
@@ -45,6 +46,9 @@ public class JDBCQueries {
 
     public static final String GET_CATEGORIES
             = "SELECT * FROM CATEGORY";
+
+    public static final String GET_CATEGORIE
+            = "SELECT * FROM CATEGORY WHERE id=?";
 
     public static final String ADD_CATEGORY_TO_USER
             = "INSERT INTO user_category_relationship(user_id,category_id) VALUES(?,?)";
@@ -279,6 +283,29 @@ public class JDBCQueries {
         }
     }
 
+    public Category get_category(int id) throws CategoryDoesNotExist {
+        PreparedStatement ps = null;
+        Category c = new Category();
+        try {
+            ps = con.prepareStatement(GET_CATEGORIE);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if(!rs.next()) throw new CategoryDoesNotExist(id);
+            c.setId(rs.getInt(Tables.CAT_ID_COL));
+            c.setName(rs.getString(Tables.CAT_NAME_COL));
+        } catch (SQLException e) {
+            JDBCHelper.printSQLExcep(e);
+        } finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                JDBCHelper.printSQLExcep(e);
+            }
+        }
+        return c;
+    }
+
     public Location get_location(int id) throws LocationDoesNotExit {
         PreparedStatement ps = null;
         Location l = new Location();
@@ -396,6 +423,29 @@ public class JDBCQueries {
 
             while (rs.next()) {
                 ans.add(get_location(rs.getInt(Tables.TLR_LOC_ID_COL)));
+            }
+        } catch (SQLException e) {
+            JDBCHelper.printSQLExcep(e);
+        } finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                JDBCHelper.printSQLExcep(e);
+            }
+        }
+        return ans;
+    }
+
+    public Set<Category> get_categories_from_user(int user_id) throws CategoryDoesNotExist {
+        Set<Category> ans = new HashSet<>();
+        PreparedStatement ps = null;
+
+        try {
+            ps = con.prepareStatement(GET_CATEGORIES_FROM_USER);
+            ps.setInt(1, user_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ans.add(get_category(rs.getInt(Tables.UCR_CAT_ID_COL)));
             }
         } catch (SQLException e) {
             JDBCHelper.printSQLExcep(e);
