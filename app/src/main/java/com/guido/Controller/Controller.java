@@ -3,11 +3,14 @@ package com.guido.Controller;
 import com.guido.Exceptions.InvalidCredentials;
 import com.guido.JDBC.JDBCQueries;
 import com.guido.Model.User;
+
+import java.io.Serializable;
 import java.sql.SQLException;
 
-public class LoginController implements ILoginController {
-    JDBCQueries jdbc;
-    public LoginController() {
+public class Controller implements IController, Serializable {
+    public JDBCQueries jdbc;
+
+    public Controller() {
         try {
             jdbc = new JDBCQueries();
         } catch (SQLException e) {
@@ -16,11 +19,11 @@ public class LoginController implements ILoginController {
     }
 
     @Override
-    public User verifyLogin(String email, String pass) throws InvalidCredentials, SQLException {
-        try {
-            return jdbc.login_user(email, pass);
-        } finally {
-            jdbc.close();
-        }
+    public User verifyLogin(String email, String pass) throws InvalidCredentials {
+        return jdbc.login_user(email, pass);
+    }
+
+    public void close() throws SQLException {
+        jdbc.close();
     }
 }

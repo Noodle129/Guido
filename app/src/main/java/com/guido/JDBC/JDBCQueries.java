@@ -11,6 +11,7 @@ import com.guido.Model.Location;
 import com.guido.Model.Trip;
 import com.guido.Model.User;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class JDBCQueries {
+public class JDBCQueries implements Serializable {
     private Connection con;
 
     public JDBCQueries() throws SQLException {
