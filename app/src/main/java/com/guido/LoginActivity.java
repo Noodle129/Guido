@@ -22,19 +22,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        email = findViewById(R.id.loginEmailField);
-        password = findViewById(R.id.loginPassField);
-        login = findViewById(R.id.submitLoginBtn);
+            email = findViewById(R.id.loginEmailField);
+            password = findViewById(R.id.loginPassField);
+            login = findViewById(R.id.submitLoginBtn);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (loginController.verifyLogin(email.getText().toString().trim(), password.getText().toString().trim()))
-                    startActivity(new Intent(LoginActivity.this, MapsActivity.class));
-                else {
-                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (loginController.verifyLogin(email.getText().toString().trim(), password.getText().toString().trim()))
+                        startActivity(new Intent(LoginActivity.this, NavigationDrawer.class));
+                    else {
+                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        });
+            });
     }
 }
+

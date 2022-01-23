@@ -34,11 +34,11 @@
         android:hint="Email"
         android:inputType="textPersonName"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+    <!-- app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2" -->
 
     <Button
         android:id="@+id/submitLoginBtn"
@@ -70,26 +70,27 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/submitRegisterBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.589" />
+    <!-- app:layout_constraintBottom_toBottomOf="@+id/submitRegisterBtn" -->
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="206dp"
-        android:layout_marginBottom="33dp"
-        android:capitalize="characters"
-        android:fontFamily="sans-serif-light"
-        android:text="LOGIN"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/loginEmailField"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="LOGIN" />
+
+<TextView
+    android:id="@+id/textView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="206dp"
+    android:layout_marginBottom="33dp"
+    android:capitalize="characters"
+    android:fontFamily="sans-serif-light"
+    android:text="LOGIN"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    app:layout_constraintBottom_toTopOf="@+id/loginEmailField"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="LOGIN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,16 +9,6 @@
     android:background="#FBE8CB"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
-    </LinearLayout>
-
 
     <fragment
         android:id="@+id/map"
@@ -26,13 +16,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapsActivity" />
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/headerfile"
-        app:menu="@menu/navigationbar" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

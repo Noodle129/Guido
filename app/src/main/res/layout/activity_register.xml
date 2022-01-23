@@ -30,11 +30,11 @@
         android:fontFamily="sans-serif-light"
         android:text="REGISTO"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/loginEmailField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="REGISTO" />
+    <!--         app:layout_constraintBottom_toTopOf="@+id/loginEmailField" -->
 
     <EditText
         android:id="@+id/registerPassField"
