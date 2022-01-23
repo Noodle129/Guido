@@ -4,6 +4,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.guido.Exceptions.CannotAcessDataBase;
 import com.guido.Exceptions.EmailNotAvalable;
 import com.guido.Exceptions.InvalidCredentials;
+import com.guido.Exceptions.LocationDoesNotExit;
+import com.guido.Model.Category;
+import com.guido.Model.Location;
 import com.guido.Model.User;
 
 import java.sql.Connection;
@@ -11,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class JDBCQueries {
     private Connection con;
@@ -52,6 +57,12 @@ public class JDBCQueries {
     public static final String GET_TRIP
             = "SELECT FROM trip WHERE id=?";
 
+    public static final String GET_LOCATIONS_FROM_TRIP
+            = "";
+
+    public static final String GET_CATEGORIES_FROM_USER
+            = "";
+
     public User login_user(String lg_pass, String lg_mail) throws InvalidCredentials {
         PreparedStatement ps = null;
         User u = new User();
@@ -82,14 +93,12 @@ public class JDBCQueries {
         }
         return u;
     }
-    public static void register_user(String name, String password, String email) throws CannotAcessDataBase, EmailNotAvalable {
-        Connection con = null;
+    public void register_user(String name, String password, String email) throws CannotAcessDataBase, EmailNotAvalable {
         PreparedStatement ps = null;
 
         try {
             con = JDBCHelper.getConnection();
             if (con == null) throw new CannotAcessDataBase();
-            con.setAutoCommit(false);
             ps = con.prepareStatement(INSERT_USER);
             ps.setString(1, name);
             ps.setString(2, password);
@@ -108,7 +117,6 @@ public class JDBCQueries {
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
-                JDBCHelper.closeConnection(con);
             } catch (SQLException e) {
                 System.err.println("Error: " + e.getErrorCode());
                 System.err.println("State: " + e.getSQLState());
@@ -119,14 +127,12 @@ public class JDBCQueries {
     }
 
     //TODO EXCEPTION
-    public static void update_name(String name, int id) throws CannotAcessDataBase {
-        Connection con = null;
+    public void update_name(String name, int id) throws CannotAcessDataBase {
         PreparedStatement ps = null;
 
         try {
             con = JDBCHelper.getConnection();
             if (con == null) throw new CannotAcessDataBase();
-            con.setAutoCommit(false);
             ps = con.prepareStatement(UPDATE_NAME);
             ps.setString(1, name);
             ps.setInt(2, id);
@@ -142,7 +148,6 @@ public class JDBCQueries {
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
-                JDBCHelper.closeConnection(con);
             } catch (SQLException e) {
                 System.err.println("Error: " + e.getErrorCode());
                 System.err.println("State: " + e.getSQLState());
@@ -153,14 +158,12 @@ public class JDBCQueries {
     }
 
     //TODO EXCEPTION
-    public static void update_email(String email, int id) throws CannotAcessDataBase {
-        Connection con = null;
+    public void update_email(String email, int id) throws CannotAcessDataBase {
         PreparedStatement ps = null;
 
         try {
             con = JDBCHelper.getConnection();
             if (con == null) throw new CannotAcessDataBase();
-            con.setAutoCommit(false);
             ps = con.prepareStatement(UPDATE_EMAIL);
             ps.setString(1, email);
             ps.setInt(2, id);
@@ -176,7 +179,6 @@ public class JDBCQueries {
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
-                JDBCHelper.closeConnection(con);
             } catch (SQLException e) {
                 System.err.println("Error: " + e.getErrorCode());
                 System.err.println("State: " + e.getSQLState());
@@ -187,14 +189,12 @@ public class JDBCQueries {
     }
 
     //TODO EXCEPTION
-    public static void update_password(String password, int id) throws CannotAcessDataBase {
-        Connection con = null;
+    public void update_password(String password, int id) throws CannotAcessDataBase {
         PreparedStatement ps = null;
 
         try {
             con = JDBCHelper.getConnection();
             if (con == null) throw new CannotAcessDataBase();
-            con.setAutoCommit(false);
             ps = con.prepareStatement(UPDATE_PASSWORD);
             ps.setString(1, password);
             ps.setInt(2, id);
@@ -210,7 +210,6 @@ public class JDBCQueries {
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
-                JDBCHelper.closeConnection(con);
             } catch (SQLException e) {
                 System.err.println("Error: " + e.getErrorCode());
                 System.err.println("State: " + e.getSQLState());
@@ -220,15 +219,44 @@ public class JDBCQueries {
         }
     }
 
-    //TODO EXCEPTION
-    public static void add_category_user(int uid, int cid) throws CannotAcessDataBase {
-        Connection con = null;
+    public Set<Category> get_categories() throws CannotAcessDataBase {
+        Set<Category> categoryMap = new HashSet<>();
         PreparedStatement ps = null;
 
         try {
             con = JDBCHelper.getConnection();
             if (con == null) throw new CannotAcessDataBase();
-            con.setAutoCommit(false);
+            ps = con.prepareStatement(GET_CATEGORIES);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                categoryMap.add(new Category(rs.getInt(TableConsts.CAT_ID_COL),
+                                             rs.getString(TableConsts.CAT_NAME_COL)));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getErrorCode());
+            System.err.println("State: " + e.getSQLState());
+            System.err.println("Message: " + e.getMessage());
+        }
+        finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                System.err.println("Error: " + e.getErrorCode());
+                System.err.println("State: " + e.getSQLState());
+                System.err.println("Message: " + e.getMessage());
+            }
+        }
+        return categoryMap;
+    }
+
+    //TODO EXCEPTION
+    public void add_category_user(int uid, int cid) throws CannotAcessDataBase {
+        PreparedStatement ps = null;
+
+        try {
+            con = JDBCHelper.getConnection();
+            if (con == null) throw new CannotAcessDataBase();
             ps = con.prepareStatement(ADD_CATEGORY_TO_USER);
             ps.setInt(1, uid);
             ps.setInt(2, cid);
@@ -244,25 +272,21 @@ public class JDBCQueries {
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
-                JDBCHelper.closeConnection(con);
             } catch (SQLException e) {
                 System.err.println("Error: " + e.getErrorCode());
                 System.err.println("State: " + e.getSQLState());
                 System.err.println("Message: " + e.getMessage());
             }
-
         }
     }
 
     //TODO EXCEPTION
-    public static void remove_category_user(int uid, int cid) throws CannotAcessDataBase {
-        Connection con = null;
+    public void remove_category_user(int uid, int cid) throws CannotAcessDataBase {
         PreparedStatement ps = null;
 
         try {
             con = JDBCHelper.getConnection();
             if (con == null) throw new CannotAcessDataBase();
-            con.setAutoCommit(false);
             ps = con.prepareStatement(REMOVE_CATEGORY_FROM_USER);
             ps.setInt(1, uid);
             ps.setInt(2, cid);
@@ -278,7 +302,6 @@ public class JDBCQueries {
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
-                JDBCHelper.closeConnection(con);
             } catch (SQLException e) {
                 System.err.println("Error: " + e.getErrorCode());
                 System.err.println("State: " + e.getSQLState());
@@ -286,6 +309,37 @@ public class JDBCQueries {
             }
 
         }
+    }
+
+    public Location get_location(int id) throws LocationDoesNotExit {
+        PreparedStatement ps = null;
+        Location l = new Location();
+        try {
+            ps = con.prepareStatement(GET_LOCATION);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if(!rs.next()) throw new LocationDoesNotExit(id);
+            l.setId(rs.getInt(TableConsts.LOC_ID_COL));
+            l.setName(rs.getString(TableConsts.LOC_NAME_COL));
+            l.setAddress(rs.getString(TableConsts.LOC_ADDRESS_COL));
+            l.setX(rs.getFloat(TableConsts.LOC_X_COL));
+            l.setY(rs.getFloat(TableConsts.LOC_Y_COL));
+            l.setAdminID(rs.getInt(TableConsts.LOC_ADMIN_ID_COL));
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getErrorCode());
+            System.err.println("State: " + e.getSQLState());
+            System.err.println("Message: " + e.getMessage());
+        } finally {
+            try {
+                JDBCHelper.closePrepaerdStatement(ps);
+            } catch (SQLException e) {
+                System.err.println("Error: " + e.getErrorCode());
+                System.err.println("State: " + e.getSQLState());
+                System.err.println("Message: " + e.getMessage());
+            }
+        }
+        return l;
     }
 
 }
