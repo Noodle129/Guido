@@ -47,7 +47,7 @@ public class JDBCQueries {
     public static final String GET_CATEGORIES
             = "SELECT * FROM CATEGORY";
 
-    public static final String GET_CATEGORIE
+    public static final String GET_CATEGORY
             = "SELECT * FROM CATEGORY WHERE id=?";
 
     public static final String ADD_CATEGORY_TO_USER
@@ -287,7 +287,7 @@ public class JDBCQueries {
         PreparedStatement ps = null;
         Category c = new Category();
         try {
-            ps = con.prepareStatement(GET_CATEGORIE);
+            ps = con.prepareStatement(GET_CATEGORY);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
