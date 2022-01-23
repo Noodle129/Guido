@@ -52,23 +52,23 @@ public class JDBCQueries {
             = "DELETE FROM user_category_relationship WHERE user_id=? AND category_id=?";
 
     public static final String GET_LOCATION
-            = "SELECT FROM location WHERE id=?";
+            = "SELECT * FROM location WHERE id=?";
 
     public static final String GET_LOCATIONS
             = "SELECT * FROM location";
 
     public static final String GET_TRIP
-            = "SELECT FROM trip WHERE id=?";
+            = "SELECT * FROM trip WHERE id=?";
 
     public static final String GET_TRIPS
             = "SELECT * FROM trip";
 
 
     public static final String GET_LOCATIONS_FROM_TRIP
-            = "";
+            = "SELECT * FROM trips_location_relationship WHERE Trip_ID=?";
 
     public static final String GET_CATEGORIES_FROM_USER
-            = "";
+            = "SELECT * FROM user_category_relationship WHERE User_ID=?";
 
     public User login_user(String lg_pass, String lg_mail) throws InvalidCredentials {
         PreparedStatement ps = null;
@@ -107,7 +107,6 @@ public class JDBCQueries {
             ps.setString(2, password);
             ps.setString(3, email);
             ps.execute();
-            con.commit();
         }
         catch (SQLIntegrityConstraintViolationException e) {
             throw new EmailNotAvalable(email);
@@ -136,7 +135,6 @@ public class JDBCQueries {
             ps.setString(1, name);
             ps.setInt(2, id);
             ps.execute();
-            con.commit();
         }
         catch (SQLException e) {
             JDBCHelper.printSQLExcep(e);
@@ -163,7 +161,6 @@ public class JDBCQueries {
             ps.setString(1, email);
             ps.setInt(2, id);
             ps.execute();
-            con.commit();
         }
         catch (SQLException e) {
             JDBCHelper.printSQLExcep(e);
@@ -190,7 +187,6 @@ public class JDBCQueries {
             ps.setString(1, password);
             ps.setInt(2, id);
             ps.execute();
-            con.commit();
         }
         catch (SQLException e) {
             JDBCHelper.printSQLExcep(e);
@@ -244,7 +240,6 @@ public class JDBCQueries {
             ps.setInt(1, uid);
             ps.setInt(2, cid);
             ps.execute();
-            con.commit();
         }
         catch (SQLException e) {
             JDBCHelper.printSQLExcep(e);
@@ -270,21 +265,15 @@ public class JDBCQueries {
             ps.setInt(1, uid);
             ps.setInt(2, cid);
             ps.execute();
-            con.commit();
         }
         catch (SQLException e) {
-            System.err.println("Error: " + e.getErrorCode());
-            System.err.println("State: " + e.getSQLState());
-            System.err.println("Message: " + e.getMessage());
+            JDBCHelper.printSQLExcep(e);
         }
-
         finally {
             try {
                 JDBCHelper.closePrepaerdStatement(ps);
             } catch (SQLException e) {
-                System.err.println("Error: " + e.getErrorCode());
-                System.err.println("State: " + e.getSQLState());
-                System.err.println("Message: " + e.getMessage());
+                JDBCHelper.printSQLExcep(e);
             }
 
         }
