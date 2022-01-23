@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/captura_de_ecr__2022_01_21___s_02_16_41_removebg_preview" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/loginEmailField"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -31,24 +31,23 @@
         android:backgroundTint="#FF5722"
         android:ems="10"
         android:fontFamily="sans-serif-condensed-light"
-        android:hint="Nome / Email"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+    <!-- app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2" -->
 
     <Button
-        android:id="@+id/submitLogin"
+        android:id="@+id/submitLoginBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="#FF7700"
         android:fontFamily="sans-serif-medium"
-        android:onClick="goToMainMenu"
         android:text="Login"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +58,7 @@
         app:layout_constraintVertical_bias="0.992" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/loginPassField"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -71,26 +70,27 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/submitRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.589" />
+    <!-- app:layout_constraintBottom_toBottomOf="@+id/submitRegisterBtn" -->
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="206dp"
-        android:layout_marginBottom="33dp"
-        android:capitalize="characters"
-        android:fontFamily="sans-serif-light"
-        android:text="LOGIN"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="LOGIN" />
+
+<TextView
+    android:id="@+id/textView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="206dp"
+    android:layout_marginBottom="33dp"
+    android:capitalize="characters"
+    android:fontFamily="sans-serif-light"
+    android:text="LOGIN"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    app:layout_constraintBottom_toTopOf="@+id/loginEmailField"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="LOGIN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
