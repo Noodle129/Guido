@@ -100,6 +100,7 @@ public class JDBCQueries {
         }
         return u;
     }
+
     public void register_user(String name, String password, String email) throws CannotAcessDataBase, EmailNotAvalable {
         PreparedStatement ps = null;
 
@@ -318,8 +319,8 @@ public class JDBCQueries {
             l.setId(rs.getInt(Tables.LOC_ID_COL));
             l.setName(rs.getString(Tables.LOC_NAME_COL));
             l.setAddress(rs.getString(Tables.LOC_ADDRESS_COL));
-            l.setX(rs.getFloat(Tables.LOC_X_COL));
-            l.setY(rs.getFloat(Tables.LOC_Y_COL));
+            l.setX(rs.getDouble(Tables.LOC_X_COL));
+            l.setY(rs.getDouble(Tables.LOC_Y_COL));
             l.setAdmin_id(rs.getInt(Tables.LOC_ADMIN_ID_COL));
         } catch (SQLException e) {
             JDBCHelper.printSQLExcep(e);
@@ -345,8 +346,8 @@ public class JDBCQueries {
                 l.setId(rs.getInt(Tables.LOC_ID_COL));
                 l.setName(rs.getString(Tables.LOC_NAME_COL));
                 l.setAddress(rs.getString(Tables.LOC_ADDRESS_COL));
-                l.setX(rs.getFloat(Tables.LOC_X_COL));
-                l.setY(rs.getFloat(Tables.LOC_Y_COL));
+                l.setX(rs.getDouble(Tables.LOC_X_COL));
+                l.setY(rs.getDouble(Tables.LOC_Y_COL));
                 l.setAdmin_id(rs.getInt(Tables.LOC_ADMIN_ID_COL));
                 ans.add(l);
             }
