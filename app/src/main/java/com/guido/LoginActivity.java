@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     User u = controller.verifyLogin(email.getText().toString().trim(), password.getText().toString().trim());
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(LoginActivity.this, MapsActivity.class));
+                    startActivity(new Intent(LoginActivity.this, NavigationDrawer.class));
                 } catch (InvalidCredentials e) {
                     Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
                 }
