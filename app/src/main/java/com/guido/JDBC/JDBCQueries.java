@@ -11,6 +11,7 @@ import com.guido.Model.Location;
 import com.guido.Model.Trip;
 import com.guido.Model.User;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class JDBCQueries {
+public class JDBCQueries implements Serializable {
     private Connection con;
 
     public JDBCQueries() throws SQLException {
@@ -100,12 +101,11 @@ public class JDBCQueries {
         }
         return u;
     }
-    public void register_user(String name, String password, String email) throws CannotAcessDataBase, EmailNotAvalable {
+
+    public void register_user(String name, String password, String email) throws EmailNotAvalable {
         PreparedStatement ps = null;
 
         try {
-            con = JDBCHelper.getConnection();
-            if (con == null) throw new CannotAcessDataBase();
             ps = con.prepareStatement(INSERT_USER);
             ps.setString(1, name);
             ps.setString(2, password);
@@ -318,8 +318,8 @@ public class JDBCQueries {
             l.setId(rs.getInt(Tables.LOC_ID_COL));
             l.setName(rs.getString(Tables.LOC_NAME_COL));
             l.setAddress(rs.getString(Tables.LOC_ADDRESS_COL));
-            l.setX(rs.getFloat(Tables.LOC_X_COL));
-            l.setY(rs.getFloat(Tables.LOC_Y_COL));
+            l.setX(rs.getDouble(Tables.LOC_X_COL));
+            l.setY(rs.getDouble(Tables.LOC_Y_COL));
             l.setAdmin_id(rs.getInt(Tables.LOC_ADMIN_ID_COL));
         } catch (SQLException e) {
             JDBCHelper.printSQLExcep(e);
@@ -345,8 +345,8 @@ public class JDBCQueries {
                 l.setId(rs.getInt(Tables.LOC_ID_COL));
                 l.setName(rs.getString(Tables.LOC_NAME_COL));
                 l.setAddress(rs.getString(Tables.LOC_ADDRESS_COL));
-                l.setX(rs.getFloat(Tables.LOC_X_COL));
-                l.setY(rs.getFloat(Tables.LOC_Y_COL));
+                l.setX(rs.getDouble(Tables.LOC_X_COL));
+                l.setY(rs.getDouble(Tables.LOC_Y_COL));
                 l.setAdmin_id(rs.getInt(Tables.LOC_ADMIN_ID_COL));
                 ans.add(l);
             }
