@@ -96,6 +96,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
+
         //Inicializar o fragmento aonde o mapa está localizado dentro da Activity [código original]
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -130,8 +132,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //[Código original]
         //Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng bomJesus = new LatLng(-8.3775, 41.5546);
+        mMap.addMarker(new MarkerOptions().position(bomJesus).title("Marker in GoodJesus"));
+        LatLng sameiro = new LatLng(-8.3719921, 41.5418245);
+        mMap.addMarker(new MarkerOptions().position(sameiro).title("Marker in Sameiro"));
+        LatLng gota = new LatLng(-8.4013489, 41.5578162);
+        mMap.addMarker(new MarkerOptions().position(gota).title("Marker in Gota"));
+        LatLng rodovia = new LatLng(-8.4027909, 41.5540646);
+        mMap.addMarker(new MarkerOptions().position(rodovia).title("Marker in Rodovia"));
 
         adicionaComponentesVisuais();
         recuperarPosicaoAtual();
