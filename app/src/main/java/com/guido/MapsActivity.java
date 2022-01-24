@@ -8,6 +8,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,24 +25,32 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.guido.DirectionHelpers.FetchURL;
+import com.guido.DirectionHelpers.TaskLoadedCallback;
 import com.guido.databinding.ActivityMapsBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     MarkerOptions bj,sm,rv,gt;
 
-
     private FusedLocationProviderClient servicoLocalizacao;
     private double latitude, longitude;
     private boolean permitiuGPS = false;
     Location ultimaPosicao;
+
+
+
+    Button getDirection;
+    private Polyline currentPolyline;
     List <Marker> markerPoints= new ArrayList<>();
 
     /*
@@ -64,12 +74,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-
-
         //Inicializar o fragmento aonde o mapa está localizado dentro da Activity [código original]
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        getDirection = findViewById(R.id.btnGetDirection);
+        getDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FetchURL(MapsActivity.this).execute(getUrl(bj.getPosition(), sm.getPosition(), "driving"), "driving");
+            }
+        });
 
         //Chama o serviço de localização do Andrdoid e atribui ao nosso objeto
         servicoLocalizacao = LocationServices.getFusedLocationProviderClient(this);
@@ -92,6 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
             Toast.makeText(getApplicationContext(), "Para este aplicativo é necessário habilitar o GPS", Toast.LENGTH_LONG).show();
         }
+
     }
 
 
@@ -135,8 +151,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng rodovia = new LatLng(41.5540646,-8.4027909);
         MarkerOptions rv = new MarkerOptions().position(rodovia).title("Marker in Rodovia");
         mMap.addMarker(rv);
-
-
 
     }
 
@@ -211,6 +225,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private String getUrl(LatLng origin, LatLng dest, String directionMode) {
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        // Mode
+        String mode = "mode=" + directionMode;
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + mode;
+        // Output format
+        String output = "json";
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_key);
+        return url;
+    }
+
+    @Override
+    public void onTaskDone(Object... values) {
+        if (currentPolyline != null)
+            currentPolyline.remove();
+        currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
+    }
 }
 
 
