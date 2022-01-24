@@ -72,7 +72,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double latitude, longitude;
     private boolean permitiuGPS = false;
     Location ultimaPosicao;
-    ArrayList markerPoints= new ArrayList();
+    List <Marker> markerPoints= new ArrayList<>();
+
+    private final LatLng PERTH = new LatLng(-31.952854, 115.857342);
+    private final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
+    private final LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
+
+    private Marker markerPerth;
+    private Marker markerSydney;
+    private Marker markerBrisbane;
 
 
     /*
@@ -132,7 +140,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //[Código original]
         //Add a marker in Sydney and move the camera
-        LatLng bomJesus = new LatLng(-8.3775, 41.5546);
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+
+        adicionaComponentesVisuais();
+        recuperarPosicaoAtual();
+     /*   LatLng bomJesus = new LatLng(-8.3775, 41.5546);
         mMap.addMarker(new MarkerOptions().position(bomJesus).title("Marker in GoodJesus"));
         LatLng sameiro = new LatLng(-8.3719921, 41.5418245);
         mMap.addMarker(new MarkerOptions().position(sameiro).title("Marker in Sameiro"));
@@ -140,9 +153,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(gota).title("Marker in Gota"));
         LatLng rodovia = new LatLng(-8.4027909, 41.5540646);
         mMap.addMarker(new MarkerOptions().position(rodovia).title("Marker in Rodovia"));
+      */
+        markerPerth = mMap.addMarker(new MarkerOptions()
+                .position(PERTH)
+                .title("Perth"));
+        markerPerth.setTag(0);
 
-        adicionaComponentesVisuais();
-        recuperarPosicaoAtual();
+        markerSydney = mMap.addMarker(new MarkerOptions()
+                .position(SYDNEY)
+                .title("Sydney"));
+        markerSydney.setTag(0);
+
+        markerBrisbane = mMap.addMarker(new MarkerOptions()
+                .position(BRISBANE)
+                .title("Brisbane"));
+        markerBrisbane.setTag(0);
 
     }
 
