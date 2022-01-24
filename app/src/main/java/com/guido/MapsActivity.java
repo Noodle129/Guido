@@ -1,71 +1,40 @@
 package com.guido;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.internal.ConnectionCallbacks;
-import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationRequest;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.guido.databinding.ActivityMapsBinding;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    MarkerOptions bj,sm,rv,gt;
 
 
     private FusedLocationProviderClient servicoLocalizacao;
@@ -73,15 +42,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean permitiuGPS = false;
     Location ultimaPosicao;
     List <Marker> markerPoints= new ArrayList<>();
-
-    private final LatLng PERTH = new LatLng(-31.952854, 115.857342);
-    private final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
-    private final LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
-
-    private Marker markerPerth;
-    private Marker markerSydney;
-    private Marker markerBrisbane;
-
 
     /*
     @Override
@@ -109,6 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Inicializar o fragmento aonde o mapa está localizado dentro da Activity [código original]
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
         //Chama o serviço de localização do Andrdoid e atribui ao nosso objeto
         servicoLocalizacao = LocationServices.getFusedLocationProviderClient(this);
@@ -138,40 +99,46 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+    googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        @Override
+        public void onMapClick(@NonNull LatLng latLng) {
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            markerOptions.position(latLng);
+            markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+            mMap.addMarker(markerOptions);
+        }
+    });
+
+
         //[Código original]
         //Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         adicionaComponentesVisuais();
         recuperarPosicaoAtual();
-     /*   LatLng bomJesus = new LatLng(-8.3775, 41.5546);
-        mMap.addMarker(new MarkerOptions().position(bomJesus).title("Marker in GoodJesus"));
-        LatLng sameiro = new LatLng(-8.3719921, 41.5418245);
-        mMap.addMarker(new MarkerOptions().position(sameiro).title("Marker in Sameiro"));
-        LatLng gota = new LatLng(-8.4013489, 41.5578162);
-        mMap.addMarker(new MarkerOptions().position(gota).title("Marker in Gota"));
-        LatLng rodovia = new LatLng(-8.4027909, 41.5540646);
-        mMap.addMarker(new MarkerOptions().position(rodovia).title("Marker in Rodovia"));
-      */
-        markerPerth = mMap.addMarker(new MarkerOptions()
-                .position(PERTH)
-                .title("Perth"));
-        markerPerth.setTag(0);
 
-        markerSydney = mMap.addMarker(new MarkerOptions()
-                .position(SYDNEY)
-                .title("Sydney"));
-        markerSydney.setTag(0);
+        
+        LatLng bomJesus = new LatLng(41.5546,-8.3775);
+        MarkerOptions bj = new MarkerOptions().position(bomJesus).title("Marker in GoodJesus");
+        mMap.addMarker(bj);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(bomJesus));
+        LatLng sameiro = new LatLng(41.5418245,-8.3719921);
+        MarkerOptions sm = new MarkerOptions().position(sameiro).title("Marker in Sameiro");
+        mMap.addMarker(sm);
+        LatLng gota = new LatLng(41.5578162,-8.4013489);
+        MarkerOptions gt = new MarkerOptions().position(gota).title("Marker in Gota");
+        mMap.addMarker(gt);
+        LatLng rodovia = new LatLng(41.5540646,-8.4027909);
+        MarkerOptions rv = new MarkerOptions().position(rodovia).title("Marker in Rodovia");
+        mMap.addMarker(rv);
 
-        markerBrisbane = mMap.addMarker(new MarkerOptions()
-                .position(BRISBANE)
-                .title("Brisbane"));
-        markerBrisbane.setTag(0);
+
 
     }
-
-
 
 
     //Método que irá receber todas as atualizações enviadas pelo GPS, isto é, se mudar algum
