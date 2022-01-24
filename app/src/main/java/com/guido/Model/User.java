@@ -1,9 +1,10 @@
 package com.guido.Model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class User {
+public class User implements Serializable {
     private int id;
     private String name;
     private String email;

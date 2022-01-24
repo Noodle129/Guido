@@ -1,20 +1,17 @@
 package com.guido.Model;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Model {
+public class Model implements Serializable {
     private User u;
     private Set<Location> lcs;
     private Set<Trip> trips;
-    private double lat;
-    private double lng;
 
-    public Model(User u, Set<Location> lcs, Set<Trip> trips, double lat, double lng) {
+    public Model(User u, Set<Location> lcs, Set<Trip> trips) {
         this.u = u;
         this.lcs = lcs;
         this.trips = trips;
-        this.lat = lat;
-        this.lng = lng;
     }
 
     public User getU() {
@@ -41,19 +38,4 @@ public class Model {
         this.trips = trips;
     }
 
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
 }

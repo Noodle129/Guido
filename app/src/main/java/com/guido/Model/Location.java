@@ -1,10 +1,11 @@
 package com.guido.Model;
 
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Location  {
+public class Location implements Serializable {
     private int id;
     private String name;
     private String address;

@@ -1,11 +1,12 @@
 package com.guido.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Trip {
+public class Trip implements Serializable {
     private int id;
     private String name;
     private int admin_id;
