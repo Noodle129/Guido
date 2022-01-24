@@ -23,20 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try  {
-                    controller = new Controller();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
+        controller = new Controller();
         setContentView(R.layout.activity_main);
     }
 
@@ -51,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("controller", (Serializable) controller);
         startActivity(i);
     }
-
 }
 
 
