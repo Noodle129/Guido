@@ -2,14 +2,8 @@ package com.guido;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import com.guido.Exceptions.CannotAcessDataBase;
-import com.guido.Exceptions.EmailNotAvalable;
 import com.guido.Exceptions.InvalidCredentials;
 import com.guido.JDBC.JDBCQueries;
-import com.guido.Model.User;
-
 import java.sql.SQLException;
 
 /**

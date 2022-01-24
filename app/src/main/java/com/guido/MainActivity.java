@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = new Controller();
         setContentView(R.layout.activity_main);
+        controller = new Controller();
     }
 
     public void launchRegister(View v){

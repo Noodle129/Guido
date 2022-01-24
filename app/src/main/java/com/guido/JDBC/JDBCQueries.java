@@ -102,12 +102,10 @@ public class JDBCQueries implements Serializable {
         return u;
     }
 
-    public void register_user(String name, String password, String email) throws CannotAcessDataBase, EmailNotAvalable {
+    public void register_user(String name, String password, String email) throws EmailNotAvalable {
         PreparedStatement ps = null;
 
         try {
-            con = JDBCHelper.getConnection();
-            if (con == null) throw new CannotAcessDataBase();
             ps = con.prepareStatement(INSERT_USER);
             ps.setString(1, name);
             ps.setString(2, password);

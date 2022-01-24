@@ -1,5 +1,6 @@
 package com.guido.Controller;
 
+import com.guido.Exceptions.EmailNotAvalable;
 import com.guido.Exceptions.InvalidCredentials;
 import com.guido.JDBC.JDBCQueries;
 import com.guido.Model.User;
@@ -22,6 +23,12 @@ public class Controller implements IController, Serializable {
     public User verifyLogin(String email, String pass) throws InvalidCredentials {
         return jdbc.login_user(email, pass);
     }
+
+    @Override
+    public void registerUser(String email, String pass, String name) throws EmailNotAvalable {
+        jdbc.register_user(name, pass, email);
+    }
+
 
     public void close() throws SQLException {
         jdbc.close();
